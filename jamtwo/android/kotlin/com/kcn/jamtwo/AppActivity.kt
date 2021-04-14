@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -17,6 +16,7 @@ class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
+
 
 
         var type1 = ""
@@ -119,19 +119,23 @@ class AppActivity : AppCompatActivity() {
         gameButton.setOnClickListener {
             // getting user's input
             val username = findViewById<EditText>(R.id.edit_text_username).text.toString()
-
-
+            val type1 = spinner1.selectedItem.toString()
+            val type2 = spinner1.selectedItem.toString()
 
             // start the game
-            launchGame()
+            launchGame(type1, type2)
+
         }
     }
 
 
     //  Starts game
-    private fun launchGame(){
+    private fun launchGame(type1: String, type2: String){
         val intent = Intent(this, GameActivity::class.java)
         intent.putExtra("Game", 1)
+        intent.putExtra("Type1", type1)
+        intent.putExtra("Type2", type2)
         startActivityForResult(intent, FIRST_GAME_REQUEST_CODE)
+
     }
 }
