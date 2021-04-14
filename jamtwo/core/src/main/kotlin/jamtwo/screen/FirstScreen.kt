@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.utils.viewport.FitViewport
 import jamtwo.Jam
+import jamtwo.engine.component.DirectionComponent
 import jamtwo.engine.component.GraphicComponent
+import jamtwo.engine.component.PlayerComponent
 import jamtwo.engine.component.TransformComponent
 import jamtwo.unitScale
 import ktx.app.KtxScreen
@@ -25,17 +27,13 @@ private val LOG = logger<FirstScreen>()
 /** First screen of the application. Displayed after the application is created.  */
 class FirstScreen(game: Jam) : JamScreen(game) {
     private val viewport = FitViewport(16f, 9f)
-    private val playerTexture = Texture(Gdx.files.internal("graphics/Grass.png"))
+
 
     private val player = game.engine.entity{
-        with<TransformComponent>{pos.set(1f, 1f, 0f)}
-        with<GraphicComponent>{sprite.run{
-            setRegion(playerTexture)
-            setSize(texture.width* unitScale, texture.height * unitScale)
-            setOriginCenter()
-        }
-        }
-
+        with<TransformComponent>{pos.set(3f, 2f, 0f)}
+        with<GraphicComponent>()
+        with<PlayerComponent>()
+        with<DirectionComponent>()
 
     }
 
@@ -55,6 +53,6 @@ class FirstScreen(game: Jam) : JamScreen(game) {
     }
 
     override fun dispose() {
-        playerTexture.dispose()
+       // super.dispose()
     }
 }
