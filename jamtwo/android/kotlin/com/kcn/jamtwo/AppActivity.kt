@@ -19,8 +19,8 @@ class AppActivity : AppCompatActivity() {
         setContentView(R.layout.activity_app)
 
 
-        var type1: String = ""
-        var type2: String = ""
+        var type1 = ""
+        var type2 = ""
         val headImage = findViewById<ImageView>(R.id.imageHead)
         val bodyImage = findViewById<ImageView>(R.id.imageBody)
         //get the spinner from the xml.
@@ -29,7 +29,6 @@ class AppActivity : AppCompatActivity() {
         //create a list of items for the spinner.
         val items = arrayOf("Earth", "Wind", "Fire", "Water")
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
         // initialize an array adapter for spinner
         val adapter:ArrayAdapter<String> = object: ArrayAdapter<String>(
                 this,
@@ -49,7 +48,7 @@ class AppActivity : AppCompatActivity() {
                 // set item text bold
                 view.setTypeface(view.typeface, Typeface.BOLD)
 
-                // set selected item style
+                // set selected item style for both spinners
                 if (position == spinner1.selectedItemPosition){
                     view.background = ColorDrawable(Color.parseColor("#FAEBD7"))
                     view.setTextColor(Color.parseColor("#008000"))
@@ -66,6 +65,7 @@ class AppActivity : AppCompatActivity() {
         spinner1.adapter = adapter
         spinner2.adapter = adapter
 
+        // spinner1 on item selected listener
         spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                     parent: AdapterView<*>,
@@ -73,6 +73,7 @@ class AppActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
             ) {
+                // setting the previewed characters clothing according to the user's selection of magic type
                 type1 = parent.getItemAtPosition(position).toString()
                 when (type1){
                     "Earth" ->  headImage.setImageResource(R.drawable.earthhat);
@@ -87,6 +88,7 @@ class AppActivity : AppCompatActivity() {
             }
         }
 
+        // spinner2 on item selected listener
         spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                     parent: AdapterView<*>,
@@ -94,6 +96,7 @@ class AppActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
             ) {
+                // setting the previewed characters clothing according to the user's selection of magic type
                 type2 = parent.getItemAtPosition(position).toString()
                 when (type2){
                     "Earth" ->  bodyImage.setImageResource(R.drawable.earthbody);
