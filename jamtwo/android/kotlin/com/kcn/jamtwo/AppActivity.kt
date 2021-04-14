@@ -3,10 +3,7 @@ package com.kcn.jamtwo
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class AppActivity : AppCompatActivity() {
@@ -30,6 +27,26 @@ class AppActivity : AppCompatActivity() {
         //set the spinners adapter to the previously created one.
         spinner1.adapter = adapter1
         spinner2.adapter = adapter2
+
+        val headImage = findViewById<ImageView>(R.id.imageHead)
+        val bodyImage = findViewById<ImageView>(R.id.imageBody)
+        val text: String = spinner1.selectedItem.toString()
+        val text1: String = spinner2.selectedItem.toString()
+
+        when (text){
+            "Earth" ->  headImage.setImageResource(R.drawable.earthhat);
+            "Wind" ->  headImage.setImageResource(R.drawable.airhat);
+            "Fire" ->  headImage.setImageResource(R.drawable.firehat);
+            "Water" ->  headImage.setImageResource(R.drawable.waterhat);
+        }
+
+        when (text1){
+            "Earth" ->  bodyImage.setImageResource(R.drawable.earthbody);
+            "Wind" ->  bodyImage.setImageResource(R.drawable.airbody);
+            "Fire" ->  bodyImage.setImageResource(R.drawable.firebody);
+            "Water" ->  bodyImage.setImageResource(R.drawable.waterbody);
+        }
+
 
 
 
