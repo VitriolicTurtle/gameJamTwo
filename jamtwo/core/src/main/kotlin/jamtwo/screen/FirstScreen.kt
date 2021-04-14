@@ -29,6 +29,8 @@ class FirstScreen(game: Jam) : JamScreen(game) {
     private val viewport = FitViewport(16f, 9f)
 
 
+
+
     private val player = game.engine.entity{
         with<TransformComponent>{pos.set(3f, 2f, 0f)}
         with<GraphicComponent>()
@@ -52,7 +54,4 @@ class FirstScreen(game: Jam) : JamScreen(game) {
         }
     }
 
-    override fun dispose() {
-       // super.dispose()
-    }
 }

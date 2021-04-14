@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.viewport.FitViewport
+import jamtwo.engine.component.Direction
 import jamtwo.engine.system.AnimationPlayerSystem
 import jamtwo.engine.system.InputSystem
 import jamtwo.engine.system.RenderSystem
@@ -20,20 +21,53 @@ import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.log.debug
 import ktx.log.logger
+import javax.print.DocFlavor
 
 private val LOG = logger<Jam>()
 const val unitScale = 1/16f
 
-class Jam() : KtxGame<KtxScreen>() {
+class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
     val gameViewport = FitViewport(16f, 9f)
     val batch: Batch by lazy { SpriteBatch() }
 
+    //      Get bodyparts
+    private val playerTexture1 = when(type1){
+        "Earth" ->  "character/earthhat.png"
+        "Wind" ->  "character/airhat.png"
+        "Fire" ->  "character/firehat.png"
+        "Water" ->  "character/waterhat.png"
+        else -> "character/airhat.png"
+    }
+    private val playerTexture1L = when(type1){
+        "Earth" ->  "character/left/earthhatLeft.png"
+        "Wind" ->  "character/left/airhatLeft.png"
+        "Fire" ->  "character/left/firehatLeft.png"
+        "Water" ->  "character/left/waterhatLeft.png"
+        else -> "character/left/airhatL.png"
+    }
+    private val playerTexture2 = when(type1){
+        "Earth" ->  "character/earthhat.png"
+        "Wind" ->  "character/airhat.png"
+        "Fire" ->  "character/firehat.png"
+        "Water" ->  "character/waterhat.png"
+        else -> "character/airhat.png"
+    }
+    private val playerTexture2L = when(type1){
+        "Earth" ->  "character/left/earthhatLeft.png"
+        "Wind" ->  "character/left/airhatLeft.png"
+        "Fire" ->  "character/left/firehatLeft.png"
+        "Water" ->  "character/left/waterhatLeft.png"
+        else -> "character/left/airhatLeft.png"
+    }
+    //////////////////////////////////////////////////////////////
 
-    private val playerHeadTextureRight by lazy {TextureRegion(Texture(Gdx.files.internal("graphics/airhat.png")))}
-    private val playerHeadTextureLeft by lazy {TextureRegion(Texture(Gdx.files.internal("graphics/left/airhatLeft.png")))}
-
+    private val playerHeadTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1))) }
+    private val playerHeadTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1L))) }
+    private val playerBodyTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1L))) }
+    private val playerBodyTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1L))) }
 
     val engine: Engine by lazy { PooledEngine().apply{
+
         addSystem(InputSystem(gameViewport))
         addSystem(AnimationPlayerSystem(
             playerHeadTextureRight,
@@ -44,9 +78,10 @@ class Jam() : KtxGame<KtxScreen>() {
         }
     }
 
+
     override fun create() {
         Gdx.app.logLevel = LOG_DEBUG
-        LOG.debug { "x" }
+        LOG.debug { "Create game instance" }
         addScreen(FirstScreen(this))
         addScreen(SecondScreen(this))
         setScreen<FirstScreen>()
@@ -54,7 +89,9 @@ class Jam() : KtxGame<KtxScreen>() {
 
     override fun dispose() {
         super.dispose()
+        playerHeadTextureLeft.texture.dispose()
         playerHeadTextureRight.texture.dispose()
-        //playerHeadTextureLeft.texture.dispose()
+        playerBodyTextureLeft.texture.dispose()
+        playerBodyTextureRight.texture.dispose()
     }
 }
