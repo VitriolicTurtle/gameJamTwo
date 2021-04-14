@@ -40,8 +40,6 @@ class FirstScreen(game: Jam) : JamScreen(game) {
     }
 
 
-
-
     override fun show(){
         LOG.debug{ "First screen "}
     }
