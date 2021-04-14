@@ -54,6 +54,10 @@ class AppActivity : AppCompatActivity() {
                     view.background = ColorDrawable(Color.parseColor("#FAEBD7"))
                     view.setTextColor(Color.parseColor("#008000"))
                 }
+                if (position == spinner2.selectedItemPosition){
+                    view.background = ColorDrawable(Color.parseColor("#FAEBD7"))
+                    view.setTextColor(Color.parseColor("#EB6C49"))
+                }
 
                 return view
             }
@@ -79,7 +83,7 @@ class AppActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+                // not possible to select nothing, but it doesn't work without this function
             }
         }
 
@@ -100,7 +104,7 @@ class AppActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+                // not possible to select nothing, but it doesn't work without this function
             }
         }
 
@@ -116,7 +120,7 @@ class AppActivity : AppCompatActivity() {
 
 
             // start the game
-            //launchGame()
+            launchGame()
         }
     }
 
