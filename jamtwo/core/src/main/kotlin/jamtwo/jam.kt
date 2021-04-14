@@ -15,11 +15,12 @@ import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.log.debug
 import ktx.log.logger
+import javax.print.DocFlavor
 
 private val LOG = logger<Jam>()
 const val unitScale = 1 / 16f
 
-class Jam : KtxGame<KtxScreen>() {
+class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
     val gameViewport = FitViewport(16f, 9f)
     val batch: Batch by lazy { SpriteBatch() }
     val engine: Engine by lazy { PooledEngine().apply{
@@ -27,10 +28,12 @@ class Jam : KtxGame<KtxScreen>() {
         }
     }
 
+
+
     override fun create() {
         Gdx.app.logLevel = LOG_DEBUG
-        LOG.debug { "Create game instance"}
-        addScreen(FirstScreen(this))
+        LOG.debug { "Create game instance" }
+        addScreen(FirstScreen(this, type1, type2))
         addScreen(SecondScreen(this))
         setScreen<FirstScreen>()
     }
