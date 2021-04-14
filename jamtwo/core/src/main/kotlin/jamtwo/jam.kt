@@ -12,7 +12,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.viewport.FitViewport
 import jamtwo.engine.component.Direction
+import jamtwo.engine.component.EntityLinkComponent
 import jamtwo.engine.system.AnimationPlayerSystem
+import jamtwo.engine.system.EntityLinkSystem
 import jamtwo.engine.system.InputSystem
 import jamtwo.engine.system.RenderSystem
 import jamtwo.screen.FirstScreen
@@ -46,33 +48,37 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         else -> "character/left/airhatL.png"
     }
     private val playerTexture2 = when(type1){
-        "Earth" ->  "character/earthhat.png"
-        "Wind" ->  "character/airhat.png"
-        "Fire" ->  "character/firehat.png"
-        "Water" ->  "character/waterhat.png"
-        else -> "character/airhat.png"
+        "Earth" ->  "character/earthbody.png"
+        "Wind" ->  "character/airbody.png"
+        "Fire" ->  "character/firebody.png"
+        "Water" ->  "character/waterbody.png"
+        else -> "character/airbody.png"
     }
     private val playerTexture2L = when(type1){
-        "Earth" ->  "character/left/earthhatLeft.png"
-        "Wind" ->  "character/left/airhatLeft.png"
-        "Fire" ->  "character/left/firehatLeft.png"
-        "Water" ->  "character/left/waterhatLeft.png"
-        else -> "character/left/airhatLeft.png"
+        "Earth" ->  "character/left/earthbodyLeft.png"
+        "Wind" ->  "character/left/airbodyLeft.png"
+        "Fire" ->  "character/left/firebodyLeft.png"
+        "Water" ->  "character/left/waterbodyLeft.png"
+        else -> "character/left/airbodyLeft.png"
     }
     //////////////////////////////////////////////////////////////
 
+    private val playerBodyTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture2))) }
+    private val playerBodyTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture2L))) }
     private val playerHeadTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1))) }
     private val playerHeadTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1L))) }
-    private val playerBodyTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1L))) }
-    private val playerBodyTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1L))) }
 
     val engine: Engine by lazy { PooledEngine().apply{
 
         addSystem(InputSystem(gameViewport))
         addSystem(AnimationPlayerSystem(
+            playerBodyTextureRight,
+            playerBodyTextureLeft,
+            playerBodyTextureRight
+        ))
+        addSystem(EntityLinkSystem(
             playerHeadTextureRight,
-            playerHeadTextureLeft,
-            playerHeadTextureRight
+            playerHeadTextureLeft
         ))
         addSystem(RenderSystem(batch, gameViewport))
         }
