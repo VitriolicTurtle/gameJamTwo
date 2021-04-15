@@ -120,7 +120,7 @@ class AppActivity : AppCompatActivity() {
             // getting user's input
             val username = findViewById<EditText>(R.id.edit_text_username).text.toString()
             val type1 = spinner1.selectedItem.toString()
-            val type2 = spinner1.selectedItem.toString()
+            val type2 = spinner2.selectedItem.toString()
 
             // start the game
             launchGame(type1, type2)

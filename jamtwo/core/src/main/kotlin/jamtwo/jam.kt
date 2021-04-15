@@ -13,10 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.viewport.FitViewport
 import jamtwo.engine.component.Direction
 import jamtwo.engine.component.EntityLinkComponent
-import jamtwo.engine.system.AnimationPlayerSystem
-import jamtwo.engine.system.EntityLinkSystem
-import jamtwo.engine.system.InputSystem
-import jamtwo.engine.system.RenderSystem
+import jamtwo.engine.system.*
 import jamtwo.screen.FirstScreen
 import jamtwo.screen.SecondScreen
 import ktx.app.KtxGame
@@ -47,19 +44,50 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         "Water" ->  "character/left/waterhatLeft.png"
         else -> "character/left/airhatL.png"
     }
-    private val playerTexture2 = when(type1){
+    private val playerTexture2 = when(type2){
         "Earth" ->  "character/earthbody.png"
         "Wind" ->  "character/airbody.png"
         "Fire" ->  "character/firebody.png"
         "Water" ->  "character/waterbody.png"
         else -> "character/airbody.png"
     }
-    private val playerTexture2L = when(type1){
+    private val playerTexture2L = when(type2){
         "Earth" ->  "character/left/earthbodyLeft.png"
         "Wind" ->  "character/left/airbodyLeft.png"
         "Fire" ->  "character/left/firebodyLeft.png"
         "Water" ->  "character/left/waterbodyLeft.png"
         else -> "character/left/airbodyLeft.png"
+    }
+
+    // Bullet texture
+    private val bulletTexture1 = when(type1){
+        "Earth" ->  "graphics/earthbullet.png"
+        "Wind" ->  "graphics/airbullet.png"
+        "Fire" ->  "graphics/firebullet.png"
+        "Water" ->  "graphics/waterbullet.png"
+        else -> "graphics/airbullet.png"
+    }
+    private val bulletTexture1L = when(type1){
+        "Earth" ->  "graphics/left/earthbulletLeft.png"
+        "Wind" ->  "graphics/left/airbulletLeft.png"
+        "Fire" ->  "graphics/left/firebulletLeft.png"
+        "Water" ->  "graphics/left/waterbulletLeft.png"
+        else -> "graphics/left/airbulletLeft.png"
+    }
+
+    private val bulletTexture2 = when(type2){
+        "Earth" ->  "graphics/earthbullet.png"
+        "Wind" ->  "graphics/airbullet.png"
+        "Fire" ->  "graphics/firebullet.png"
+        "Water" ->  "graphics/waterbullet.png"
+        else -> "graphics/airbullet.png"
+    }
+    private val bulletTexture2L = when(type2){
+        "Earth" ->  "graphics/left/earthbulletLeft.png"
+        "Wind" ->  "graphics/left/airbulletLeft.png"
+        "Fire" ->  "graphics/left/firebulletLeft.png"
+        "Water" ->  "graphics/left/waterbulletLeft.png"
+        else -> "graphics/left/airbulletLeft.png"
     }
     //////////////////////////////////////////////////////////////
 
@@ -68,9 +96,15 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
     private val playerHeadTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1))) }
     private val playerHeadTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1L))) }
 
-    val engine: Engine by lazy { PooledEngine().apply{
 
+    private val bulletOneTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(bulletTexture1))) }
+    private val bulletOneTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(bulletTexture1L))) }
+    private val bulletTwoTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(bulletTexture2))) }
+    private val bulletTwoTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(bulletTexture2L))) }
+
+    val engine: Engine by lazy { PooledEngine().apply{
         addSystem(InputSystem(gameViewport))
+        addSystem(MovementSystem())
         addSystem(AnimationPlayerSystem(
             playerBodyTextureRight,
             playerBodyTextureLeft,
@@ -79,6 +113,13 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         addSystem(EntityLinkSystem(
             playerHeadTextureRight,
             playerHeadTextureLeft
+        ))
+        addSystem(ProjectileSystem(
+                bulletOneTextureRight,
+                bulletOneTextureLeft,
+                bulletTwoTextureRight,
+                bulletTwoTextureLeft
+
         ))
         addSystem(RenderSystem(batch, gameViewport))
         }
@@ -99,5 +140,10 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         playerHeadTextureRight.texture.dispose()
         playerBodyTextureLeft.texture.dispose()
         playerBodyTextureRight.texture.dispose()
+        bulletOneTextureRight.texture.dispose()
+        bulletOneTextureLeft.texture.dispose()
+        bulletTwoTextureRight.texture.dispose()
+        bulletTwoTextureLeft.texture.dispose()
+
     }
 }

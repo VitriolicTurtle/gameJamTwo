@@ -7,14 +7,18 @@ import ktx.ashley.mapperFor
 enum class Direction{
     LEFT,
     DEFAULT,
-    RIGHT
+    RIGHT,
+    UP,
+    DOWN
 }
 
 class DirectionComponent : Component, Pool.Poolable {
     var currentDirection = Direction.DEFAULT
+    var walkDirection = Direction.UP
 
     override fun reset() {
         currentDirection = Direction.DEFAULT
+        walkDirection = Direction.UP
     }
 
 

@@ -39,11 +39,20 @@ class InputSystem(private val myViewport: Viewport) : IteratingSystem(allOf(Play
             }
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
+        if(Gdx.input.isKeyPressed(Input.Keys.W)){
+            dir.walkDirection = Direction.UP
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            dir.walkDirection = Direction.LEFT
             dir.currentDirection = Direction.LEFT
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D)){
+        else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            dir.walkDirection = Direction.RIGHT
             dir.currentDirection = Direction.RIGHT
         }
+        else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            dir.walkDirection = Direction.DOWN
+        }
+        else{dir.walkDirection = Direction.DEFAULT}
     }
 }

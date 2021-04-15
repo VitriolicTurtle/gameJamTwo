@@ -26,10 +26,10 @@ class FirstScreen(game: Jam) : JamScreen(game) {
 
     private val playerBody = game.engine.entity{
         with<TransformComponent>{pos.set(3f, 2f, -1f)}
+        with<MovementComponent>()
         with<GraphicComponent>()
         with<PlayerComponent>()
         with<DirectionComponent>()
-
     }
 
     private val playerHead = game.engine.entity{
@@ -39,7 +39,6 @@ class FirstScreen(game: Jam) : JamScreen(game) {
             offset.set(0.7f * unitScale, 7.5f* unitScale)
         }
         with<GraphicComponent>()
-
     }
 
 
@@ -53,9 +52,19 @@ class FirstScreen(game: Jam) : JamScreen(game) {
         secondCounter+=delta
 
         // Pressing "J" = Using magic = Wild Magic bar goes up with an inconsistant amount. (current value * random multiplier)
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J) || Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+
+            val projectile = game.engine.entity{
+                with<TransformComponent>()
+                with<GraphicComponent>()
+                with<ProjectileComponent> {
+                    parentEntity = playerBody
+                    offset.set(1*unitScale, 0f)
+                }
+            }
+
             val random = 0.0f + Math.random() * (0.8f - 0.0f)
-            if(wildMagicLevel==0.0f) wildMagicLevel += 0.001f
+            if(wildMagicLevel<=0.0f) wildMagicLevel += 0.0015f
             else wildMagicLevel += wildMagicLevel*random.toFloat()
             LOG.debug{ wildMagicLevel.toString()}
             batch.begin()
@@ -80,6 +89,11 @@ class FirstScreen(game: Jam) : JamScreen(game) {
         //  Wild magic bar
         batch.draw(magic, 0f, 0f,  Gdx.graphics.width * wildMagicLevel, 0.2f)
         batch.end()
+
+        if(wildMagicLevel>0.02){
+            game.setScreen<SecondScreen>()
+        }
+
             if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
                 game.setScreen<SecondScreen>()
             }
