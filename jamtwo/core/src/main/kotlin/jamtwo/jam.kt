@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.viewport.FitViewport
 import jamtwo.engine.system.RenderSystem
+import jamtwo.screen.Controller
 import jamtwo.screen.FirstScreen
 import jamtwo.screen.SecondScreen
 import ktx.app.KtxGame
@@ -23,12 +24,11 @@ const val unitScale = 1 / 16f
 class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
     val gameViewport = FitViewport(16f, 9f)
     val batch: Batch by lazy { SpriteBatch() }
+    val controller: Controller by lazy {Controller(batch as SpriteBatch)}
     val engine: Engine by lazy { PooledEngine().apply{
         addSystem(RenderSystem(batch, gameViewport))
         }
     }
-
-
 
     override fun create() {
         Gdx.app.logLevel = LOG_DEBUG
@@ -36,6 +36,18 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         addScreen(FirstScreen(this, type1, type2))
         addScreen(SecondScreen(this))
         setScreen<FirstScreen>()
+    }
+
+    /*
+    override fun resize(width: Int, height: Int) {
+        super.resize(width, height)
+        controller.resize(width, height)
+    }
+     */
+
+    override fun render() {
+        super.render()
+        controller.draw()
     }
 
 }
