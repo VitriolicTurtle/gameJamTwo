@@ -3,24 +3,24 @@ package jamtwo
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.Application.LOG_DEBUG
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.viewport.FitViewport
-import jamtwo.engine.component.Direction
-import jamtwo.engine.component.EntityLinkComponent
 import jamtwo.engine.system.*
+import jamtwo.engine.system.AnimationPlayerSystem
+import jamtwo.engine.system.EntityLinkSystem
+import jamtwo.engine.system.InputSystem
+import jamtwo.engine.system.RenderSystem
+import jamtwo.screen.Controller
 import jamtwo.screen.FirstScreen
 import jamtwo.screen.SecondScreen
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.log.debug
 import ktx.log.logger
-import javax.print.DocFlavor
 
 private val LOG = logger<Jam>()
 const val unitScale = 1/16f
@@ -28,6 +28,8 @@ const val unitScale = 1/16f
 class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
     val gameViewport = FitViewport(16f, 9f)
     val batch: Batch by lazy { SpriteBatch() }
+    val controller: Controller by lazy {Controller(batch as SpriteBatch)}
+
 
     //      Get bodyparts
     private val playerTexture1 = when(type1){
@@ -90,13 +92,10 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         else -> "graphics/left/airbulletLeft.png"
     }
     //////////////////////////////////////////////////////////////
-
     private val playerBodyTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture2))) }
     private val playerBodyTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture2L))) }
     private val playerHeadTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1))) }
     private val playerHeadTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1L))) }
-
-
     private val bulletOneTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(bulletTexture1))) }
     private val bulletOneTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(bulletTexture1L))) }
     private val bulletTwoTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(bulletTexture2))) }
@@ -134,6 +133,20 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         setScreen<FirstScreen>()
     }
 
+
+    /*
+    override fun resize(width: Int, height: Int) {
+        super.resize(width, height)
+        controller.resize(width, height)
+    }
+     */
+
+    override fun render() {
+        super.render()
+        controller.draw()
+    }
+
+
     override fun dispose() {
         super.dispose()
         playerHeadTextureLeft.texture.dispose()
@@ -146,4 +159,5 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         bulletTwoTextureLeft.texture.dispose()
 
     }
+
 }

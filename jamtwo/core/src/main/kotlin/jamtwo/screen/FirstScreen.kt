@@ -91,7 +91,7 @@ class FirstScreen(game: Jam) : JamScreen(game) {
         batch.end()
 
         if(wildMagicLevel>0.02){
-            game.setScreen<SecondScreen>()
+         //   game.setScreen<SecondScreen>()
         }
 
             if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
