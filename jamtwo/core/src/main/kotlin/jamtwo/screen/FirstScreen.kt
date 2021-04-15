@@ -16,7 +16,7 @@ import ktx.log.logger
 private val LOG = logger<FirstScreen>()
 
 /** First screen of the application. Displayed after the application is created.  */
-class FirstScreen(game: Jam) : JamScreen(game) {
+class FirstScreen(game: Jam, val controller: Controller) : JamScreen(game) {
     private val viewport = FitViewport(16f, 9f)
 
 
@@ -51,9 +51,9 @@ class FirstScreen(game: Jam) : JamScreen(game) {
         engine.update(delta)
         secondCounter+=delta
 
-        // Pressing "J" = Using magic = Wild Magic bar goes up with an inconsistant amount. (current value * random multiplier)
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J) || Gdx.input.isKeyJustPressed(Input.Keys.K)) {
 
+        // Pressing "J" = Using magic = Wild Magic bar goes up with an inconsistant amount. (current value * random multiplier)
+        if( Gdx.input.isKeyJustPressed(Input.Keys.J) || Gdx.input.isKeyJustPressed(Input.Keys.K)) {
             val projectile = game.engine.entity{
                 with<TransformComponent>()
                 with<GraphicComponent>()
@@ -90,8 +90,9 @@ class FirstScreen(game: Jam) : JamScreen(game) {
         batch.draw(magic, 0f, 0f,  Gdx.graphics.width * wildMagicLevel, 0.2f)
         batch.end()
 
+
         if(wildMagicLevel>0.02){
-         //   game.setScreen<SecondScreen>()
+            game.setScreen<SecondScreen>()
         }
 
             if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){

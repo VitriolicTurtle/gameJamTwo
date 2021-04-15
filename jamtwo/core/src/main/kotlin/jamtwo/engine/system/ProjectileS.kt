@@ -9,10 +9,12 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.MathUtils
 import jamtwo.engine.component.*
+import jamtwo.screen.Controller
 import ktx.ashley.allOf
 import ktx.ashley.get
 
 class ProjectileSystem(
+        val controller: Controller,
         private val projectileRight: TextureRegion,
         private val projectileLeft: TextureRegion,
         private val projectileTwoRight: TextureRegion,

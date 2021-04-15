@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.MathUtils
 import jamtwo.engine.component.*
+import jamtwo.screen.Controller
 import jamtwo.screen.FirstScreen
 import ktx.ashley.allOf
 import ktx.ashley.get
@@ -16,7 +17,7 @@ import ktx.log.logger
 private val LOG = logger<MovementSystem>()
 private const val updateRate = 1f/30f
 
-class MovementSystem : IteratingSystem(allOf(TransformComponent::class, MovementComponent::class).get()){
+class MovementSystem() : IteratingSystem(allOf(TransformComponent::class, MovementComponent::class).get()){
     private var accumulator = 0f
     override fun update(deltaTime: Float) {         // Used to prevent unpredictable behavior of game engine, if not used wonky logic can occur during a rendered frame
         accumulator += deltaTime

@@ -10,6 +10,7 @@ import jamtwo.engine.component.Direction
 import jamtwo.engine.component.DirectionComponent
 import jamtwo.engine.component.PlayerComponent
 import jamtwo.engine.component.TransformComponent
+import jamtwo.screen.Controller
 import jamtwo.screen.FirstScreen
 import ktx.ashley.allOf
 import ktx.ashley.get
@@ -19,7 +20,7 @@ import javax.xml.crypto.dsig.Transform
 private val LOG = logger<InputSystem>()
 
 
-class InputSystem(private val myViewport: Viewport) : IteratingSystem(allOf(PlayerComponent::class, TransformComponent::class, DirectionComponent::class).get()) {
+class InputSystem(private val myViewport: Viewport, val controller: Controller) : IteratingSystem(allOf(PlayerComponent::class, TransformComponent::class, DirectionComponent::class).get()) {
     private val temp = Vector2()
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
@@ -28,6 +29,8 @@ class InputSystem(private val myViewport: Viewport) : IteratingSystem(allOf(Play
         val trans = entity[TransformComponent.mapper]
         require(trans!=null) {"No transform component "}
 
+        /*
+        //  Look in touched direction
         if(Gdx.input.isTouched) {
             temp.x = Gdx.input.x.toFloat()
             myViewport.unproject(temp)
@@ -38,21 +41,23 @@ class InputSystem(private val myViewport: Viewport) : IteratingSystem(allOf(Play
                 else -> Direction.DEFAULT
             }
         }
+         */
 
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
+        if(Gdx.input.isKeyPressed(Input.Keys.W) || controller.isUpPressed){
             dir.walkDirection = Direction.UP
         }
-        else if(Gdx.input.isKeyPressed(Input.Keys.A)){
+        else if(Gdx.input.isKeyPressed(Input.Keys.A) || controller.isLeftPressed){
             dir.walkDirection = Direction.LEFT
             dir.currentDirection = Direction.LEFT
         }
-        else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+        else if(Gdx.input.isKeyPressed(Input.Keys.D)|| controller.isRightPressed){
             dir.walkDirection = Direction.RIGHT
             dir.currentDirection = Direction.RIGHT
         }
-        else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+        else if(Gdx.input.isKeyPressed(Input.Keys.S)|| controller.isDownPressed){
             dir.walkDirection = Direction.DOWN
         }
         else{dir.walkDirection = Direction.DEFAULT}
+
     }
 }

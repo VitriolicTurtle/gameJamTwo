@@ -12,8 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import jamtwo.Jam
+import ktx.log.debug
+import ktx.log.logger
 
-
+private val LOG = logger<Controller>()
 
 class Controller {
     var viewport: Viewport
@@ -22,6 +25,8 @@ class Controller {
     var isDownPressed = false
     var isLeftPressed = false
     var isRightPressed = false
+    var isAttackOnePressed = false
+    var isAttackTwoPressed = false
     var cam: OrthographicCamera
     fun draw() {
         stage.draw()
@@ -42,6 +47,8 @@ class Controller {
                     Input.Keys.DOWN -> isDownPressed = true
                     Input.Keys.LEFT -> isLeftPressed = true
                     Input.Keys.RIGHT -> isRightPressed = true
+                    Input.Keys.J -> isAttackOnePressed = true
+                    Input.Keys.K -> isAttackTwoPressed = true
                 }
                 return true
             }
@@ -52,6 +59,8 @@ class Controller {
                     Input.Keys.DOWN -> isDownPressed = false
                     Input.Keys.LEFT -> isLeftPressed = false
                     Input.Keys.RIGHT -> isRightPressed = false
+                    Input.Keys.J -> isAttackOnePressed = false
+                    Input.Keys.K -> isAttackTwoPressed = false
                 }
                 return true
             }
@@ -107,6 +116,32 @@ class Controller {
                 isLeftPressed = false
             }
         })
+        val atkOne = Image(Texture(Gdx.files.internal("graphics/atkOne.png")))
+        leftImg.setSize(50f, 50f)
+        leftImg.addListener(object : InputListener() {
+            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                isAttackOnePressed = true
+                LOG.debug{ "AAAA" }
+                return true
+            }
+
+            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
+                isAttackOnePressed = false
+            }
+        })
+        val atkTwo = Image(Texture(Gdx.files.internal("graphics/atkTwo.png")))
+        leftImg.setSize(50f, 50f)
+        leftImg.addListener(object : InputListener() {
+            override fun touchDown(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                isAttackTwoPressed = true
+                LOG.debug{ "BBBB" }
+                return true
+            }
+
+            override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
+                isAttackTwoPressed = false
+            }
+        })
         table.add()
         table.add(upImg).size(upImg.width, upImg.height)
         table.add()
@@ -114,10 +149,22 @@ class Controller {
         table.add(leftImg).size(leftImg.width, leftImg.height)
         table.add()
         table.add(rightImg).size(rightImg.width, rightImg.height)
+        table.add()
+        table.add().size(downImg.width, downImg.height)
+        table.add().size(downImg.width, downImg.height)
+        table.add().size(downImg.width, downImg.height)
+        table.add().size(downImg.width, downImg.height)
+        table.add().size(downImg.width, downImg.height)
+        table.add().size(downImg.width, downImg.height)
+        table.add().size(downImg.width, downImg.height)
+        table.add(atkOne).size(downImg.width, downImg.height)
+        table.add().size(downImg.width, downImg.height)
+        table.add(atkTwo).size(downImg.width, downImg.height)
         table.row().padBottom(5f)
         table.add()
         table.add(downImg).size(downImg.width, downImg.height)
         table.add()
+
         stage.addActor(table)
     }
 }

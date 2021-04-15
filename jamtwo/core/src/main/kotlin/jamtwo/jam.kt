@@ -30,7 +30,6 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
     val batch: Batch by lazy { SpriteBatch() }
     val controller: Controller by lazy {Controller(batch as SpriteBatch)}
 
-
     //      Get bodyparts
     private val playerTexture1 = when(type1){
         "Earth" ->  "character/earthhat.png"
@@ -102,7 +101,7 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
     private val bulletTwoTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(bulletTexture2L))) }
 
     val engine: Engine by lazy { PooledEngine().apply{
-        addSystem(InputSystem(gameViewport))
+        addSystem(InputSystem(gameViewport, controller))
         addSystem(MovementSystem())
         addSystem(AnimationPlayerSystem(
             playerBodyTextureRight,
@@ -114,6 +113,7 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
             playerHeadTextureLeft
         ))
         addSystem(ProjectileSystem(
+                controller,
                 bulletOneTextureRight,
                 bulletOneTextureLeft,
                 bulletTwoTextureRight,
@@ -128,7 +128,7 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
     override fun create() {
         Gdx.app.logLevel = LOG_DEBUG
         LOG.debug { "Create game instance" }
-        addScreen(FirstScreen(this))
+        addScreen(FirstScreen(this, controller))
         addScreen(SecondScreen(this))
         setScreen<FirstScreen>()
     }

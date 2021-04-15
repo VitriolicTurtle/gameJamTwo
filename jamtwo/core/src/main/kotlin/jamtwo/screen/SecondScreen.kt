@@ -24,7 +24,7 @@ class SecondScreen(game: Jam) : JamScreen(game) {
     override fun render(delta: Float){
         batch.begin()
         //  Wild magic bar updated every time magic is used
-        batch.draw(gameOver, 0f, 0f, 16f, 9f)
+        batch.draw(gameOver, 0f, 0f, 16f*54, 9f*54)
         batch.end()
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
