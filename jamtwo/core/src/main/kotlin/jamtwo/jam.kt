@@ -32,9 +32,8 @@ const val unitScale = 1/16f
 class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
     val gameViewport = FitViewport(16f, 9f)
     val batch: Batch by lazy { SpriteBatch() }
-<<<<<<< HEAD
     val controller: Controller by lazy {Controller(batch as SpriteBatch)}
-=======
+
 
     //      Get bodyparts
     private val playerTexture1 = when(type1){
@@ -65,14 +64,14 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         "Water" ->  "character/left/waterbodyLeft.png"
         else -> "character/left/airbodyLeft.png"
     }
-    //////////////////////////////////////////////////////////////
+
 
     private val playerBodyTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture2))) }
     private val playerBodyTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture2L))) }
     private val playerHeadTextureRight by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1))) }
     private val playerHeadTextureLeft by lazy { TextureRegion(Texture(Gdx.files.internal(playerTexture1L))) }
 
->>>>>>> d23fe1f89895a86656532ca2e73d4bbc90db61b3
+
     val engine: Engine by lazy { PooledEngine().apply{
 
         addSystem(InputSystem(gameViewport))
@@ -89,10 +88,7 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         }
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> d23fe1f89895a86656532ca2e73d4bbc90db61b3
     override fun create() {
         Gdx.app.logLevel = LOG_DEBUG
         LOG.debug { "Create game instance" }
@@ -101,7 +97,7 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         setScreen<FirstScreen>()
     }
 
-<<<<<<< HEAD
+
     /*
     override fun resize(width: Int, height: Int) {
         super.resize(width, height)
@@ -114,7 +110,7 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         controller.draw()
     }
 
-=======
+
     override fun dispose() {
         super.dispose()
         playerHeadTextureLeft.texture.dispose()
@@ -122,5 +118,5 @@ class Jam(var type1: String, var type2: String) : KtxGame<KtxScreen>() {
         playerBodyTextureLeft.texture.dispose()
         playerBodyTextureRight.texture.dispose()
     }
->>>>>>> d23fe1f89895a86656532ca2e73d4bbc90db61b3
+
 }
